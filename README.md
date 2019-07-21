@@ -1,6 +1,6 @@
 # Blockchain Basics Mini Course
 
-This is a mini course covering the basics of the Blockchain philosophy. The course consist 4 mini lectures each with presentation and simple homework, and 1 workshop with step-by-step guide to build a simple Blockchain network. Enjoy!
+This is a mini course covering the basics of the Blockchain philosophy. The course consist 3 mini lectures each with presentation and simple homework, bonus materials, and 1 workshop with step-by-step guide to build a simple Blockchain network. Enjoy!
 
 1. Blockchain Introduction
     * [Blockchain Intoduction Materials](https://github.com/mdamyanova/Blockchain-Basics-Mini-Course/tree/master/01.Blockchain%20Introduction)
@@ -8,3 +8,6 @@ This is a mini course covering the basics of the Blockchain philosophy. The cour
 1. Consensus Algorithms
     * [Consensus Algorithms Materials](https://github.com/mdamyanova/Blockchain-Basics-Mini-Course/tree/master/02.Consensus%20Algorithms)
     * [Consensus Algorithms Quiz](https://quizizz.com/admin/quiz/5d2f72e469e55c001aaee0b4/consensus-algorithms-introduction)
+1. Ethereum, Smart Contracts
+    * [Ethereum, Smart Contracts Materials](https://github.com/mdamyanova/Blockchain-Basics-Mini-Course/tree/master/03.Ethereum%2C%20Smart%20Contracts)
+    * [Ethereum, Smart Contracts Quiz](https://quizizz.com/admin/quiz/5d303be8b1a002001dca2ed0/ethereum-smart-contracts-introduction)
