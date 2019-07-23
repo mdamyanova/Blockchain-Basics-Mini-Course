@@ -15,3 +15,5 @@ The mini course is covering **the basics of the Blockchain philosophy under 10 m
     * [Ethereum, Smart Contracts Quiz](https://quizizz.com/admin/quiz/5d303be8b1a002001dca2ed0/ethereum-smart-contracts-introduction)
 1. Workshop
     * [Workshop Materials](https://github.com/mdamyanova/Blockchain-Basics-Mini-Course/tree/master/04.Workshop)
+1. Bonus
+    * [Bonus Materials](https://github.com/mdamyanova/Blockchain-Basics-Mini-Course/tree/master/05.Bonus)
