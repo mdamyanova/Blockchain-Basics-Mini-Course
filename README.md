@@ -2,7 +2,7 @@
 
 This is **a mini course/homework** for the course **"Teachers of the Future" at SoftUni**.
 
-The mini course is covering **the basics of the Blockchain philosophy under 10 minutes**. The course consist **3 mini lectures** each with **presentation and simple homework**, **bonus materials**, and **1 workshop with step-by-step guide to build a simple Blockchain network**. Enjoy!
+The mini course is covering **the basics of the Blockchain philosophy under 10 minutes**. The course consists **3 mini lectures** each with **presentation and simple homework**, **bonus materials**, and **1 workshop with step-by-step guide to build a simple Blockchain network**. Enjoy!
 
 1. Blockchain Introduction
     * [Blockchain Intoduction Materials](https://github.com/mdamyanova/Blockchain-Basics-Mini-Course/tree/master/01.Blockchain%20Introduction)
