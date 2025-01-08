@@ -14,126 +14,98 @@ contract Cat {
     }
     
     address private owner;
-    string[] private organizations; // All registered organizations
+    string[] private organizations;
     
-    mapping (string => AdoptionCat[]) adoptionCats; // Organization - Cats :))
-    mapping(string => uint) indexes; // Organization name - index
-    mapping (address => uint) donations;
+    mapping(string => AdoptionCat[]) private adoptionCats;
+    mapping(address => uint) private donations;
     
     uint public allDonations;
     
-    // Set Owner of Contract to be current Sender
     constructor() public {
-        owner == msg.sender;
+        owner = msg.sender;
     }
     
-    /**
-     * Modifiers and Events
-     **/
     modifier isOwner() {
-        require(owner == msg.sender);
+        require(owner == msg.sender, "Not the contract owner");
         _;
     }
     
-    modifier catExists(string _organization, uint _index) {
-        require(adoptionCats[_organization].length > 0);
-        require(_index <= indexes[_organization]);
+    modifier catExists(string memory _organization, uint _index) {
+        require(_index < adoptionCats[_organization].length, "Cat does not exist");
         _;
     }
     
-    modifier canAdopt(string _organization, uint _index) {
-        require(adoptionCats[_organization][_index].isAdopted == false);
-        // require(_cat.catOwner != msg.sender);
+    modifier canAdopt(string memory _organization, uint _index) {
+        require(!adoptionCats[_organization][_index].isAdopted, "Cat already adopted");
         _;
     }
     
-    // Event for Donation made
-    event Donation(address _from, uint _amount);
-    event Adopt(address _owner);
+    event Donation(address indexed _from, uint _amount);
+    event Adopt(address indexed _owner);
     
-    /**
-     * Donation
-     **/
-    function donate(uint _amount) public payable {
-        donations[msg.sender] += _amount;
-        allDonations += _amount;
-        emit Donation(msg.sender, _amount);
+    function donate() public payable {
+        require(msg.value > 0, "Donation must be greater than 0");
+        donations[msg.sender] += msg.value;
+        allDonations += msg.value;
+        emit Donation(msg.sender, msg.value);
     }
     
-    function allDonations() view public returns(uint) {
-        return allDonations;
+    function getDonations(address _donor) public view returns (uint) {
+        return donations[_donor];
     }
     
-    // TODO - Transfer donations?
-    
-    /**
-     * Get information about cats
-     **/
-    function info(string _organization, uint _index) 
-      view public catExists(_organization, _index) 
-      returns(string, uint, string, string, string, string) {
-        return (adoptionCats[_organization][_index].name,
-        adoptionCats[_organization][_index].age,
-        adoptionCats[_organization][_index].gender,
-        adoptionCats[_organization][_index].town,
-        adoptionCats[_organization][_index].descr,
-        adoptionCats[_organization][_index].organization);
+    function info(string memory _organization, uint _index) 
+      public view catExists(_organization, _index)
+      returns (string memory, uint8, string memory, string memory, string memory, string memory) {
+        AdoptionCat storage cat = adoptionCats[_organization][_index];
+        return (cat.name, cat.age, cat.gender, cat.town, cat.descr, cat.organization);
     }
     
-    function isAdopted(string _organization, uint _index) 
-      view public catExists(_organization, _index)
+    function isAdopted(string memory _organization, uint _index) 
+      public view catExists(_organization, _index)
       returns (bool) {
         return adoptionCats[_organization][_index].isAdopted;
     }
     
-    function imageHash(string _organization, uint _index)
-      view public catExists(_organization, _index)
-      returns (string) {
+    function imageHash(string memory _organization, uint _index)
+      public view catExists(_organization, _index)
+      returns (string memory) {
           return adoptionCats[_organization][_index].imageHash;
     }
     
-    function catOwner(string _organization, uint _index)
-      view public catExists(_organization, _index)
+    function catOwner(string memory _organization, uint _index)
+      public view catExists(_organization, _index)
       returns (address) {
           return adoptionCats[_organization][_index].catOwner;
     }
     
-    /**
-     * Adoption
-     **/
-    // Add Cat available for Adoption
-    function add(string _name, uint8 _age, string _gender, string  _town,
-        string _descr, string _imageHash, string _organization) public {
-        AdoptionCat memory cat;
-        cat.name = _name;
-        cat.age = _age;
-        cat.gender = _gender;
-        cat.town = _town;
-        cat.descr = _descr;
-        cat.imageHash = _imageHash;
-        cat.organization = _organization;
-        cat.catOwner = msg.sender;
-        cat.isAdopted = false;
+    function add(string memory _name, uint8 _age, string memory _gender, string memory _town,
+        string memory _descr, string memory _imageHash, string memory _organization) public {
         
-        // Check if we have already registered organization. If not, add it.
+        // Add new organization if not already added
         if (adoptionCats[_organization].length == 0) {
             organizations.push(_organization);
         }
         
-        // Add current cat to adoptionCats
-        if (adoptionCats[_organization].length == indexes[_organization]) {
-            adoptionCats[_organization].push(cat);
-            indexes[_organization] += 1; // Index and keep the organization
-        } else {
-            adoptionCats[_organization][indexes[_organization]] = cat;
-            indexes[_organization] += 1;
-        }
+        // Create and add new cat
+        adoptionCats[_organization].push(AdoptionCat({
+            name: _name,
+            age: _age,
+            gender: _gender,
+            town: _town,
+            descr: _descr,
+            imageHash: _imageHash,
+            organization: _organization,
+            catOwner: msg.sender,
+            isAdopted: false
+        }));
     }
     
-    function adopt(string _organization, uint _index) 
+    function adopt(string memory _organization, uint _index) 
     public catExists(_organization, _index) canAdopt(_organization, _index) {
-        adoptionCats[_organization][_index].isAdopted = true;
-        adoptionCats[_organization][_index].catOwner = msg.sender;
+        AdoptionCat storage cat = adoptionCats[_organization][_index];
+        cat.isAdopted = true;
+        cat.catOwner = msg.sender;
         emit Adopt(msg.sender);
     }
 }
